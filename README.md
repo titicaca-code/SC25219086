@@ -1,2 +1,7 @@
 # SC25219086
-Neural-Network Assignments
+
+神经网络及其应用课程作业仓库
+
+## 目录结构
+
+- hw1: 第一次作业
