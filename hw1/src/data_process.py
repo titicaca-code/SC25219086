@@ -1,12 +1,10 @@
 import pandas as pd
-import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 
 def load_and_split_data(csv_path):
     df = pd.read_csv(csv_path)
 
-    # 默认最后一列是目标值
     X = df.iloc[:, :-1].values
     y = df.iloc[:, -1].values.reshape(-1, 1)
 
@@ -17,8 +15,22 @@ def load_and_split_data(csv_path):
     y_train = y[:split_idx]
     y_test = y[split_idx:]
 
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    x_scaler = StandardScaler()
+    X_train_scaled = x_scaler.fit_transform(X_train)
+    X_test_scaled = x_scaler.transform(X_test)
 
-    return df, X_train_scaled, X_test_scaled, y_train, y_test, scaler
+    y_scaler = StandardScaler()
+    y_train_scaled = y_scaler.fit_transform(y_train)
+    y_test_scaled = y_scaler.transform(y_test)
+
+    return (
+        df,
+        X_train_scaled,
+        X_test_scaled,
+        y_train,
+        y_test,
+        y_train_scaled,
+        y_test_scaled,
+        x_scaler,
+        y_scaler,
+    )

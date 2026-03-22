@@ -12,16 +12,24 @@ def main():
 
     ensure_dir(results_dir)
 
-    df, X_train, X_test, y_train, y_test, scaler = load_and_split_data(data_path)
+    (
+        df,
+        X_train,
+        X_test,
+        y_train,
+        y_test,
+        y_train_scaled,
+        y_test_scaled,
+        x_scaler,
+        y_scaler,
+    ) = load_and_split_data(data_path)
 
     print("Data shape:", df.shape)
     print("Train size:", X_train.shape[0])
     print("Test size:", X_test.shape[0])
 
-    # 相关性图
     plot_correlation_heatmap(df, os.path.join(results_dir, "corr_heatmap.png"))
 
-    # 线性回归
     lr_model, lr_pred, lr_mse = run_linear_regression(X_train, X_test, y_train, y_test)
     print(f"Linear Regression Test MSE: {lr_mse:.4f}")
     plot_true_vs_pred(
@@ -31,8 +39,16 @@ def main():
         "Linear Regression: True vs Predicted"
     )
 
-    # MLP
-    mlp_model, mlp_pred, mlp_mse = run_mlp_regression(X_train, X_test, y_train, y_test)
+    mlp_model, mlp_pred, mlp_mse = run_mlp_regression(
+        X_train,
+        X_test,
+        y_train,
+        y_test,
+        y_train_scaled,
+        y_scaler,
+        epochs=1000,
+        lr=0.001
+    )
     print(f"MLP Regression Test MSE: {mlp_mse:.4f}")
     plot_true_vs_pred(
         y_test.flatten(),
