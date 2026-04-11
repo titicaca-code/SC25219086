@@ -2,3 +2,8 @@ __pycache__/
 *.pyc
 .venv/
 .ipynb_checkpoints/
+hw2/checkpoints/
+hw2/data/
+*.pth
+*.pt
+*.ckpt
